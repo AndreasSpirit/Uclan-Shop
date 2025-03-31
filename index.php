@@ -1,8 +1,10 @@
+
+
 <?php
 session_start();
     $css=file_get_contents('assign.css');
-    $connect=mysqli_connect("vesta.uclan.ac.uk","apnevmatikas","fxGHAgwRLC","apnevmatikas");
-    $result=mysqli_query($connect,"SELECT*FROM tbl-products");
+    $connect=mysqli_connect("localhost","apnevmatikas","fxGHAgwRLC","apnevmatikas");
+    $result=mysqli_query($connect,"SELECT * FROM tbl_offers");
 
     echo "<style>$css</style>"
 
@@ -11,7 +13,7 @@ session_start();
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="assign.css">
     <title>Home - UCLan Shop</title>
 </head>
@@ -32,6 +34,11 @@ session_start();
         <a href="cart.php">
             <span class="cart"> Cart</span>
         </a>
+        <?php
+        if(isset($_SESSION["logged-in"]) && $_SESSION["logged-in"]==true)
+            echo '<span><a href="logout.php">Logout</a></span>';
+        else echo '<span>Sign up</a></span>';
+        ?>
     </div>
 </header>
 <h1 class="description">Where opportunity creates</h1>
@@ -39,6 +46,26 @@ session_start();
 <p class="description2">Every student at The University of Central Lancashire is automatically a member of the Student's Union.</p>
 <p class="description2">We're here to make life better for students - inspiring you to succeed and achieve your goals.</p><br>
 <p class="description2">Everything you need to know about Uclan Students'Union. Your membership starts here.</p>
+<div class="offers-title"><h1>Offers:</h1></div>
+<div class="offerscontainer">
+<?php
+
+
+while ($row = mysqli_fetch_assoc($result)) {
+
+    echo "<div class='offers'>";
+
+    echo "<div style='font-size: 18px; font-weight: lighter'>" . $row["offer_title"] . "</div>";
+    echo "<br>";
+
+
+    echo $row["offer_dec"] . "<br>";
+
+    echo "</div><br>";
+}
+
+?>
+</div>
 <div class="video">
     <h1>Together</h1>
     <video controls width="100%">
@@ -84,4 +111,3 @@ session_start();
 </footer>
 </body>
 </html>
-
