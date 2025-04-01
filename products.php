@@ -28,10 +28,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_to_cart'])) {
         <a href="index.php">
             <span class="home"> Home</span>
         </a>
-        <a href="products.html">
+        <a href="products.php">
             <span class="products"> Products</span>
         </a>
-        <a href="cart.html">
+        <a href="cart.php">
             <span class="cart"> Cart</span>
         </a>
         <?php

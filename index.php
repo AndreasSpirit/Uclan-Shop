@@ -41,8 +41,8 @@ session_start();
         ?>
     </div>
 </header>
-<h1 class="description">Where opportunity creates</h1>
-<h1 class="description">success</h1>
+<h1 class="descriptionindex">Where opportunity creates</h1>
+<h1 class="descriptionindex">success</h1>
 <p class="description2">Every student at The University of Central Lancashire is automatically a member of the Student's Union.</p>
 <p class="description2">We're here to make life better for students - inspiring you to succeed and achieve your goals.</p><br>
 <p class="description2">Everything you need to know about Uclan Students'Union. Your membership starts here.</p>

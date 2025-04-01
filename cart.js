@@ -1,55 +1,90 @@
-(function cart () {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    const cartItems = document.getElementById("cart-items");
-    const cartTotal = document.getElementById("cart-total");
 
-    // Function to remove items from the cart
-    function renderCart() {
-        cartItems.innerHTML = "";
-        let total = 0;
 
-        cart.forEach((item, index) => {
-            const itemDiv = document.createElement("div");
-            itemDiv.classList.add("cart-item");
+document.addEventListener('DOMContentLoaded', function () {
+	function shoppingCart() {
+		const cartContainer = document.getElementById('cartContainer')
+		cartContainer.innerHTML = ''
 
-            // Parse price as a number
-            const price = parseFloat(item.price.replace(/[^0-9.-]+/g, ''));
+		const cart = JSON.parse(localStorage.getItem('cart')) || []
+		const productIds = cart.map(item => item.product_id);
+    document.getElementById('productIds').value = JSON.stringify(productIds);
 
-            //innerHTML for the cart item
-            itemDiv.innerHTML = `
-                <img src="${item.imageSrc}" alt="${item.title}" class="cart-image">
-                <h4>${item.title} (${item.color})</h4>
-                <p>Price: $${price.toFixed(2)}</p>
-                <button class="remove-button" data-index="${index}">Remove</button>
-            `;
+		cart.forEach((item, index) => {
+			const cartItem = document.createElement('div')
+			cartItem.classList.add('itemCart')
 
-            cartItems.appendChild(itemDiv);
+			const itemDetails = document.createElement('div')
+			itemDetails.classList.add('itemDetails')
 
-            // Add to the total
-            total += isNaN(price) ? 0 : price;
-        });
+			const cartName = document.createElement('h3')
+			cartName.textContent = item['product_title']
 
-        // Display the total
-        cartTotal.textContent = `Total: $${total.toFixed(2)}`;
+			const cartIndex = document.createElement('div')
+			cartIndex.classList.add('index')
+			cartIndex.textContent = `${index}`
 
-        const removeitem = document.querySelectorAll(".remove-button");
-        removeitem.forEach(button => {
-            button.addEventListener("click", (e) => {
-                const index = e.target.getAttribute("data-index");
-                removeItem(index);
-            });
+			const photoItem = document.createElement('img')
+			photoItem.src = item['product_image']
+
+			const priceItem = document.createElement('div')
+			priceItem.classList.add('price')
+			priceItem.textContent = '€ ' + item['product_price']
+
+			const removeButton = document.createElement('button')
+			removeButton.textContent = 'Remove'
+			removeButton.addEventListener('click', () => removeItem(index))
+
+			itemDetails.appendChild(photoItem)
+
+			cartItem.appendChild(cartIndex)
+			cartItem.appendChild(itemDetails)
+			cartItem.appendChild(cartName)
+			cartItem.appendChild(priceItem)
+			cartItem.appendChild(removeButton)
+			cartContainer.appendChild(cartItem)
+		})
+	}
+
+    //function to temove items from cart
+	function removeItem(index) {
+		const cart = JSON.parse(localStorage.getItem('cart')) || []
+
+		if (index >= 0 && index < cart.length) {
+			cart.splice(index, 1)// remove the item
+			localStorage.setItem('cart', JSON.stringify(cart))
+			shoppingCart()
+		}
+	}
+
+    //function to clear cart
+	function clearCart() {
+		localStorage.removeItem('cart')
+		shoppingCart()
+	}
+	
+	const clearButton = document.getElementById('clearButton');
+    if (clearButton) {
+        clearButton.addEventListener('click', function() {
+            clearCart();
         });
     }
+	
+    //function for checkout
+	const checkoutButton = document.getElementById('checkoutButton');
+    if (checkoutButton) {
+        checkoutButton.addEventListener('click', function(e) {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            if (cart.length === 0) {
+            alert('In order to proceed you have to choose items!');
+            e.preventDefault();
+        }
+        });
 
-    // Function to remove an item from the cart
-    function removeItem(index) {
-        cart.splice(index, 1); // Remove the item
-        localStorage.setItem("cart", JSON.stringify(cart)); // Update localStorage
-        renderCart(); // Re-render the cart
     }
 
-    renderCart();
-})();
+shoppingCart();
+})
+
 
 
