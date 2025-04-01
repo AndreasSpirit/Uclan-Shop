@@ -1,8 +1,6 @@
-
-
 <?php
 session_start();
-    $css=file_get_contents('assign.css');
+    $css=file_get_contents('css/assign.css');
     $connect=mysqli_connect("localhost","apnevmatikas","fxGHAgwRLC","apnevmatikas");
     $result=mysqli_query($connect,"SELECT * FROM tbl_offers");
 
@@ -14,7 +12,7 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="assign.css">
+    <link rel="stylesheet" href="css/assign.css">
     <title>Home - UCLan Shop</title>
 </head>
 <body>
@@ -35,9 +33,11 @@ session_start();
             <span class="cart"> Cart</span>
         </a>
         <?php
-        if(isset($_SESSION["logged-in"]) && $_SESSION["logged-in"]==true)
-            echo '<span><a href="logout.php">Logout</a></span>';
-        else echo '<span>Sign up</a></span>';
+        if (isset($_SESSION["logged-in"]) && $_SESSION["logged-in"] == true) {
+            echo '<span>Welcome, ' . $_SESSION["user_name"] . ' | <a href="logout.php">Logout</a></span>';
+        } else {
+            echo '<a href="login.php"><span class="login">Login</span></a>';
+        }
         ?>
     </div>
 </header>
